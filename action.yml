@@ -1,0 +1,38 @@
+name: "Gitee Relese"
+description: "Github Action for creating Gitee Releases"
+author: "Wes Lin"
+inputs:
+  body:
+    description: "Note-worthy description of changes in release"
+    required: true
+  name:
+    description: "Gives the release a custom name. Defaults to tag name"
+    required: false
+  tag_name:
+    description: "Gives a tag name. Defaults to github.GITHUB_REF"
+    required: false
+  prerelease:
+    description: "Identify the release as a prerelease. Defaults to false"
+    required: false
+  files:
+    description: "Newline-delimited list of path globs for asset files to upload"
+    required: false
+  repository:
+    description: "Repository to make releases against, in <owner>/<repo> format"
+    required: true
+  token:
+    description: "Authorized secret Gitee Personal Access Token."
+    required: true
+
+outputs:
+  url:
+    description: "URL to the Release HTML Page"
+  id:
+    description: "Release ID"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
+branding:
+  color: "green"
+  icon: "package"
