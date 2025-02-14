@@ -34,4 +34,4 @@ jobs:
           git pull --rebase --autostash
 
           git commit -m "Action version ${{ github.ref }} release"
-          git push
+          git push origin HEAD:action
