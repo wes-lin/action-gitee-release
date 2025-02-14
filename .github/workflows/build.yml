@@ -9,6 +9,9 @@ jobs:
     name: "build and release"
     runs-on: ubuntu-24.04
 
+    permissions:
+      contents: write
+
     steps:
       - name: Check out git repository
         uses: actions/checkout@v4
