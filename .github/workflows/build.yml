@@ -33,6 +33,5 @@ jobs:
           git remote set-url origin https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}
           git pull --rebase --autostash
 
-          git add .
           git commit -m "Action version ${{ github.ref }} release"
           git push
