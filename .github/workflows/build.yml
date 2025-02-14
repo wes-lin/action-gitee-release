@@ -35,4 +35,4 @@ jobs:
           git config user.name "${{ github.actor }}"
           git add .
           git commit -m "Action version ${{ github.ref }} release"
-          git push
+          git push origin HEAD:main
