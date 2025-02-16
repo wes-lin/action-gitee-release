@@ -82,6 +82,7 @@ const release = async (config: Config, gitee: GiteeClient) => {
   const name = config.input_name || tag;
   const prerelease = config.input_prerelease;
   const body = releaseBody(config) || "";
+  const branch = config.input_branch;
   const _release = await gitee.getRepoReleaseByTag({
     owner,
     repo,
@@ -96,7 +97,7 @@ const release = async (config: Config, gitee: GiteeClient) => {
       name,
       prerelease,
       body,
-      target_commitish: "master",
+      target_commitish: branch,
       id: _release.id,
     });
   } else {
@@ -108,7 +109,7 @@ const release = async (config: Config, gitee: GiteeClient) => {
       name,
       prerelease,
       body,
-      target_commitish: "master",
+      target_commitish: branch,
     });
   }
   return rel;
