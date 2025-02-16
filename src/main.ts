@@ -1,6 +1,13 @@
 import { env } from "process";
 import { setFailed, setOutput } from "@actions/core";
-import { Config, isTag, parseConfig, paths, unmatchedPatterns } from "./util";
+import {
+  Config,
+  isTag,
+  parseConfig,
+  paths,
+  releaseBody,
+  unmatchedPatterns,
+} from "./util";
 import { GiteeClient } from "./gitee";
 import { HTTPError } from "got";
 import { getType } from "mime";
@@ -19,8 +26,11 @@ async function run() {
     if (!config.input_tag_name && !isTag(config.gitee_ref)) {
       throw new Error(`⚠️ Gitee Releases requires a tag`);
     }
-    if (!config.input_body) {
-      throw new Error(`⚠️ Gitee Releases requires Description`);
+    if (!config.input_body && !config.input_body_path) {
+      throw new Error(`⚠️ Gitee Releases requires body`);
+    }
+    if (!config.input_branch) {
+      throw new Error(`⚠️ Gitee Releases requires branch`);
     }
     if (config.input_files) {
       const patterns = unmatchedPatterns(config.input_files);
@@ -71,7 +81,7 @@ const release = async (config: Config, gitee: GiteeClient) => {
     (isTag(config.gitee_ref) ? config.gitee_ref.replace("refs/tags/", "") : "");
   const name = config.input_name || tag;
   const prerelease = config.input_prerelease;
-  const body = config.input_body;
+  const body = releaseBody(config) || "";
   const _release = await gitee.getRepoReleaseByTag({
     owner,
     repo,
@@ -90,6 +100,7 @@ const release = async (config: Config, gitee: GiteeClient) => {
       id: _release.id,
     });
   } else {
+    console.log(`👩‍🏭 Creating new GitHub release for tag ${tag}...`);
     rel = await gitee.createRepoRelease({
       owner,
       repo,

@@ -149,7 +149,9 @@ export class GiteeClient {
         }
       )
       .on("uploadProgress", (progress) => {
-        console.log(progress);
+        process.stdout.write(
+          `⬆️ transferred ${progress.transferred}/ ${progress.total} \r`
+        );
       })
       .json();
   }

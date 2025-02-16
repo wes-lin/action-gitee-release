@@ -4,7 +4,10 @@ author: "Wes Lin"
 inputs:
   body:
     description: "Note-worthy description of changes in release"
-    required: true
+    required: false
+  body_path:
+    description: "Path to load note-worthy description of changes in release from"
+    required: false
   name:
     description: "Gives the release a custom name. Defaults to tag name"
     required: false
@@ -19,6 +22,9 @@ inputs:
     required: false
   repository:
     description: "Repository to make releases against, in <owner>/<repo> format"
+    required: true
+  branch:
+    description: "Gives the release with branch."
     required: true
   token:
     description: "Authorized secret Gitee Personal Access Token."
